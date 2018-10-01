@@ -45,7 +45,6 @@
 		<maven.compiler.source>10</maven.compiler.source>
 		<maven.compiler.target>10</maven.compiler.target>
 		<maven.compiler.release>10</maven.compiler.release>
-		<maven.test.skip>true</maven.test.skip>
 	</properties>
 
 	<distributionManagement>
@@ -54,36 +53,6 @@
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
-
-	<profiles>
-		<profile>
-			<!-- to execute: mvn -Psprint-provisional martini:greetz -->
-			<id>sprint-provisional</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>guru.qas</groupId>
-						<artifactId>martini-maven-plugin</artifactId>
-						<version>1.0.0-JDK10-SNAPSHOT</version>
-						<executions>
-							<execution>
-								<phase>none</phase>
-								<goals>
-									<goal>harness</goal>
-								</goals>
-								<configuration>
-									<settings>
-										<myKey>myValue</myKey>
-									</settings>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 
 	<build>
 		<plugins>
@@ -117,24 +86,27 @@
 					</execution>
 					<!-- if you want to generate help goal -->
 					<!--<execution>-->
-						<!--<id>help-goal</id>-->
-						<!--<goals>-->
-							<!--<goal>helpmojo</goal>-->
-						<!--</goals>-->
+					<!--<id>help-goal</id>-->
+					<!--<goals>-->
+					<!--<goal>helpmojo</goal>-->
+					<!--</goals>-->
 					<!--</execution>-->
 				</executions>
 			</plugin>
 
-			<!--<plugin>-->
-			<!--<groupId>guru.qas</groupId>-->
-			<!--<artifactId>martini-maven-plugin</artifactId>-->
-			<!--<version>1.0.0-JDK10-SNAPSHOT</version>-->
-			<!--&lt;!&ndash; to run from command line: mvn guru.qas:martini-maven-plugin:greetz &ndash;&gt;-->
-			<!--&lt;!&ndash; short form is:  mvn martini:greetz &ndash;&gt;-->
-			<!--<configuration>-->
-			<!--<greeting>Configured Welcome</greeting>-->
-			<!--</configuration>-->
-			<!--</plugin>-->
+			<plugin>
+				<groupId>guru.qas</groupId>
+				<artifactId>martini-maven-plugin</artifactId>
+				<version>1.0.0-JDK10-SNAPSHOT</version>
+				<!-- to run from command line: mvn guru.qas:martini-maven-plugin:execute -->
+				<!-- short form is: mvn martini:execute -->
+				<!-- More Examples -->
+				<!-- ============= -->
+				<!-- mvn martini:execute -Dexecute.phrase="hello" -->
+				<configuration>
+					<greeting>Configured Welcome</greeting>
+				</configuration>
+			</plugin>
 		</plugins>
 
 	</build>

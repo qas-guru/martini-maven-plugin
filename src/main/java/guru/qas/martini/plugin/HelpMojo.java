@@ -16,29 +16,18 @@ limitations under the License.
 
 package guru.qas.martini.plugin;
 
-import java.util.Map;
-
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
 
-@Mojo(name = "execute")
-public class StandaloneMojo extends AbstractMojo {
-
-	@Parameter(property = "execute.meh")
-	private Map meh;
-
-	@Parameter(property = "execute.phrase", defaultValue = "Hallo ${project.version} Welt!")
-	private String phrase;
+@Mojo(name = "help")
+public class HelpMojo extends AbstractMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		Log log = getLog();
-		log.info("From StandaloneMojo");
-		log.info(phrase);
-		log.info(null == meh ? "null" : meh.toString());
+		log.info("help");
 	}
 }

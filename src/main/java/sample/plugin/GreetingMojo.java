@@ -23,10 +23,10 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-@Mojo(name = "greetz")
+@Mojo(name = "meh")
 public class GreetingMojo extends AbstractMojo {
 
-	@Parameter(property = "greetz.phrase", defaultValue = "Hallo ${project.version} Welt!")
+	@Parameter(property = "meh.phrase", defaultValue = "Hallo ${project.version} Welt!")
 	private String greeting;
 
 	@Override
