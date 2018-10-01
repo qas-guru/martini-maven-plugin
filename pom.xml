@@ -100,6 +100,9 @@
 				<version>1.0.0-JDK10-SNAPSHOT</version>
 				<!-- to run from command line: mvn guru.qas:martini-maven-plugin:greetz -->
 				<!-- short form is:  mvn martini:greetz -->
+				<configuration>
+					<greeting>Configured Welcome</greeting>
+				</configuration>
 			</plugin>
 		</plugins>
 

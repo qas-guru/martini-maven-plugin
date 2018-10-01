@@ -21,13 +21,17 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 @Mojo(name = "greetz")
 public class GreetingMojo extends AbstractMojo {
 
+	@Parameter(property = "greetz.phrase", defaultValue = "Hallo ${project.version} Welt!")
+	private String greeting;
+
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		Log log = getLog();
-		log.info("Hallo Welt!");
+		log.info(greeting);
 	}
 }
