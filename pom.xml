@@ -85,12 +85,12 @@
 						<phase>process-classes</phase>
 					</execution>
 					<!-- if you want to generate help goal -->
-					<!--<execution>-->
-					<!--<id>help-goal</id>-->
-					<!--<goals>-->
-					<!--<goal>helpmojo</goal>-->
-					<!--</goals>-->
-					<!--</execution>-->
+					<execution>
+						<id>help-goal</id>
+						<goals>
+							<goal>helpmojo</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 
