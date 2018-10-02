@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.maven.model.Profile;
 import org.apache.maven.plugin.AbstractMojo;
@@ -84,18 +85,22 @@ public class StandaloneMojo extends AbstractMojo {
 	private Long martiniGatePollTimeoutMilliseconds;
 
 	@Override
-	public void execute() throws MojoExecutionException, MojoFailureException {
+	public void execute() throws MojoExecutionException {
 		Log log = getLog();
 		log.info(Arrays.toString(springConfigurationLocations));
 		log.info("spelFilter: " + spelFilter);
 
-		MavenProject project = getMavenProject();
-
-		PluginMain.builder()
-			.setMavenProject(project)
-			//.setSpringConfigurationLocations(springConfigurationLocations)
-			.build();
-
+		try {
+			MavenProject project = getMavenProject();
+			PluginMain main = PluginMain.builder()
+				.setMavenProject(project)
+				.setSpringConfigurationLocations(springConfigurationLocations)
+				.build();
+			main.executeSuite();
+		}
+		catch (Exception e) {
+			throw new MojoExecutionException("unable to execute suite", e);
+		}
 	}
 
 	protected MavenProject getMavenProject() {
