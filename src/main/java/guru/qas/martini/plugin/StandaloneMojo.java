@@ -19,25 +19,22 @@ package guru.qas.martini.plugin;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.maven.model.Profile;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
-import static com.google.common.base.Preconditions.checkState;
-
 @SuppressWarnings("WeakerAccess")
-@Mojo(name = "execute")
+@Mojo(name = "execute", requiresDependencyResolution = ResolutionScope.RUNTIME_PLUS_SYSTEM)
 public class StandaloneMojo extends AbstractMojo {
+
+	@Parameter(defaultValue = "${project}", readonly = true, required = true)
+	private MavenProject project;
 
 	@Parameter(property = "execute.spring.configuration.locations")
 	private String[] springConfigurationLocations;
@@ -81,37 +78,34 @@ public class StandaloneMojo extends AbstractMojo {
 	@Parameter(property = "execute.uncaught.exception.handler.implementation")
 	private String uncaughtExceptionHandlerImplementation;
 
-	@Parameter(property = "execute.martini.gate.poll.timeout.milliseconds")
-	private Long martiniGatePollTimeoutMilliseconds;
+	@Parameter(property = "execute.gate.poll.timeout.milliseconds")
+	private Long gatePollTimeoutMilliseconds;
 
 	@Override
 	public void execute() throws MojoExecutionException {
-		Log log = getLog();
-		log.info(Arrays.toString(springConfigurationLocations));
-		log.info("spelFilter: " + spelFilter);
-
 		try {
-			MavenProject project = getMavenProject();
 			PluginMain main = PluginMain.builder()
 				.setMavenProject(project)
 				.setSpringConfigurationLocations(springConfigurationLocations)
+				.setUnimplementedStepsFatal(unimplementedStepsFatal)
+				.setTimeoutInMinutes(timeoutInMinutes)
+				.setSpelFilter(spelFilter)
+				.setJobPoolPollIntervalMs(jobPoolPollIntervalMs)
+				.setJsonOutputFile(jsonOutputFile)
+				.setJsonOutputFileOverwrite(jsonOutputFileOverwrite)
+				.setParallelism(parallelism)
+				.setAwaitTerminationSeconds(awaitTerminationSeconds)
+				.setGatedMartiniComparatorImplementation(gatedMartiniComparatorImplementation)
+				.setEngineImplementation(engineImplementation)
+				.setSuiteIdentifierImplementation(suiteIdentifierImplementation)
+				.setTaskFactoryImplementation(taskFactoryImplementation)
+				.setUncaughtExceptionHandlerImplementation(uncaughtExceptionHandlerImplementation)
+				.setGatePollTimeoutMilliseconds(gatePollTimeoutMilliseconds)
 				.build();
 			main.executeSuite();
 		}
 		catch (Exception e) {
 			throw new MojoExecutionException("unable to execute suite", e);
 		}
-	}
-
-	protected MavenProject getMavenProject() {
-		Map<?, ?> pluginContext = super.getPluginContext();
-		return getMavenProject(pluginContext);
-	}
-
-	protected MavenProject getMavenProject(Map<?, ?> pluginContext) {
-		Object o = pluginContext.get("project");
-		checkState(MavenProject.class.isInstance(o),
-			"unable to retrieve MavenProject by key 'project' from plugin context");
-		return MavenProject.class.cast(o);
 	}
 }

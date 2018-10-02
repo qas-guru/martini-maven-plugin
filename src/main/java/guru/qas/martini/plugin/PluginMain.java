@@ -16,6 +16,7 @@ limitations under the License.
 
 package guru.qas.martini.plugin;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,8 +24,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
 
 import org.apache.maven.model.Profile;
 import org.apache.maven.project.MavenProject;
@@ -43,6 +42,7 @@ import guru.qas.martini.standalone.harness.Options;
 import guru.qas.martini.standalone.jcommander.CommandLineOptions;
 
 import static com.google.common.base.Preconditions.*;
+import static guru.qas.martini.standalone.jcommander.CommandLineOptions.*;
 
 @SuppressWarnings("WeakerAccess")
 public class PluginMain extends Main {
@@ -79,8 +79,6 @@ public class PluginMain extends Main {
 
 	public static class Builder {
 
-		protected static final String CONFIG_LOCATIONS = "-configLocations";
-
 		protected MavenProject mavenProject;
 		protected Map<String, String> arguments;
 
@@ -93,8 +91,8 @@ public class PluginMain extends Main {
 			return this;
 		}
 
-		public Builder setSpringConfigurationLocations(@Nullable String[] s) {
-			arguments.remove(CONFIG_LOCATIONS);
+		public Builder setSpringConfigurationLocations(String[] s) {
+			arguments.remove(PARAMETER_CONFIG_LOCATIONS);
 			if (null != s) {
 				List<String> locations = Arrays.stream(s)
 					.filter(Objects::nonNull)
@@ -103,8 +101,97 @@ public class PluginMain extends Main {
 					.collect(Collectors.toList());
 				if (!locations.isEmpty()) {
 					String joined = Joiner.on(',').skipNulls().join(s);
-					arguments.put(CONFIG_LOCATIONS, joined);
+					arguments.put(PARAMETER_CONFIG_LOCATIONS, joined);
 				}
+			}
+			return this;
+		}
+
+		public Builder setUnimplementedStepsFatal(Boolean b) {
+			return setBoolean(PARAMETER_UNIMPLEMENTED_STEPS_FATAL, b);
+		}
+
+		public Builder setTimeoutInMinutes(Long l) {
+			return setLong(PARAMETER_TIMEOUT_MINUTES, l);
+		}
+
+		public Builder setSpelFilter(String s) {
+			return setString(PARAMETER_SPEL_FILTER, s);
+		}
+
+		public Builder setJobPoolPollIntervalMs(Long l) {
+			return setLong(PARAMETER_JOB_POOL_POLL_INTERVAL_MS, l);
+		}
+
+		public Builder setJsonOutputFile(File f) {
+			arguments.remove(PARAMETER_JSON_OUTPUT_FILE);
+			if (null != f) {
+				arguments.put(PARAMETER_JSON_OUTPUT_FILE, f.getAbsolutePath());
+			}
+			return this;
+		}
+
+		public Builder setJsonOutputFileOverwrite(Boolean b) {
+			return setBoolean(PARAMETER_JSON_OVERWRITE, b);
+		}
+
+		public Builder setParallelism(Integer i) {
+			arguments.remove(PARAMETER_PARALLELISM);
+			if (null != i) {
+				arguments.put(PARAMETER_PARALLELISM, String.valueOf(i));
+			}
+			return this;
+		}
+
+		public Builder setAwaitTerminationSeconds(Long l) {
+			return setLong(PARAMETER_AWAIT_TERMINATION_SECONDS, l);
+		}
+
+		public Builder setGatedMartiniComparatorImplementation(String s) {
+			return setString(PARAMETER_GATED_MARTINI_COMPARATOR_IMPL, s);
+		}
+
+		public Builder setEngineImplementation(String s) {
+			return setString(PARAMETER_ENGINE_IMPL, s);
+		}
+
+		public Builder setSuiteIdentifierImplementation(String s) {
+			return setString(PARAMETER_SUITE_IDENTIFIER_IMPL, s);
+		}
+
+		public Builder setTaskFactoryImplementation(String s) {
+			return setString(PARAMETER_TASK_FACTORY_IMPL, s);
+		}
+
+		public Builder setUncaughtExceptionHandlerImplementation(String s) {
+			return setString(PARAMETER_UNCAUGHT_EXCEPTION_HANDLER_IMPL, s);
+		}
+
+		public Builder setGatePollTimeoutMilliseconds(Long l) {
+			return setLong(PARAMETER_GATE_MONITOR_POLL_TIMEOUT_MS, l);
+		}
+
+		protected Builder setBoolean(String parameter, Boolean b) {
+			arguments.remove(parameter);
+			if (null != b) {
+				arguments.put(parameter, String.valueOf(b));
+			}
+			return this;
+		}
+
+		protected Builder setLong(String parameter, Long l) {
+			arguments.remove(parameter);
+			if (null != l) {
+				arguments.put(parameter, String.valueOf(l));
+			}
+			return this;
+		}
+
+		protected Builder setString(String parameter, String value) {
+			arguments.remove(parameter);
+			String trimmed = null == value ? "" : value.trim();
+			if (!trimmed.isEmpty()) {
+				arguments.put(parameter, trimmed);
 			}
 			return this;
 		}
