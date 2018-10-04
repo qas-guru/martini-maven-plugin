@@ -12,6 +12,7 @@
 	<body>
 		<release version="1.0.0-JDK10" date="2018-10-01" description="Initial Release for Java 10">
 			<action dev="pcurich" type="add">
+				Initial code.
 			</action>
 		</release>
 	</body>

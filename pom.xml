@@ -107,33 +107,33 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>guru.qas</groupId>
+			<artifactId>martini-standalone</artifactId>
+			<version>4.0.1-JDK10-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-core</artifactId>
 			<version>3.5.4</version>
-			<scope>provided</scope>
-			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>
 			<artifactId>maven-plugin-annotations</artifactId>
 			<version>3.5.2</version>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-plugin-api</artifactId>
-			<version>3.5.4</version>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>guru.qas</groupId>
-			<artifactId>martini-standalone</artifactId>
-			<version>4.0.1-JDK10-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.maven</groupId>
+					<artifactId>maven-artifact</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 
