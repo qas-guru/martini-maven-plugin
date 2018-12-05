@@ -10,6 +10,12 @@
 	</properties>
 
 	<body>
+		<release version="2.0" date="2018-12-06" description="Updated for Java 11">
+			<action dev="pcurich" type="update">
+				Updated to Java 11.
+				Updated to martini core 4.1.0.
+			</action>
+		</release>
 		<release version="1.0.0-JDK10" date="2018-10-01" description="Initial Release for Java 10">
 			<action dev="pcurich" type="add">
 				Initial code.

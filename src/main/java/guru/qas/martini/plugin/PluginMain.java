@@ -147,10 +147,6 @@ public class PluginMain extends Main {
 			return setLong(PARAMETER_AWAIT_TERMINATION_SECONDS, l);
 		}
 
-		public Builder setGatedMartiniComparatorImplementation(String s) {
-			return setString(PARAMETER_GATED_MARTINI_COMPARATOR_IMPL, s);
-		}
-
 		public Builder setEngineImplementation(String s) {
 			return setString(PARAMETER_ENGINE_IMPL, s);
 		}

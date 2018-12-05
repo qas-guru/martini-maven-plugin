@@ -24,7 +24,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 @Mojo(name = "execute")
 public class StandaloneMojo extends AbstractMojo {
 
@@ -58,9 +58,6 @@ public class StandaloneMojo extends AbstractMojo {
 	@Parameter(property = "execute.await.termination.seconds")
 	private Long awaitTerminationSeconds;
 
-	@Parameter(property = "execute.gated.martini.comparator.implementation")
-	private String gatedMartiniComparatorImplementation;
-
 	@Parameter(property = "execute.engine.implementation")
 	private String engineImplementation;
 
@@ -90,7 +87,6 @@ public class StandaloneMojo extends AbstractMojo {
 				.setJsonOutputFileOverwrite(jsonOutputFileOverwrite)
 				.setParallelism(parallelism)
 				.setAwaitTerminationSeconds(awaitTerminationSeconds)
-				.setGatedMartiniComparatorImplementation(gatedMartiniComparatorImplementation)
 				.setEngineImplementation(engineImplementation)
 				.setSuiteIdentifierImplementation(suiteIdentifierImplementation)
 				.setTaskFactoryImplementation(taskFactoryImplementation)
